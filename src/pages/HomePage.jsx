@@ -4,20 +4,32 @@ import { MovieList } from '../components/MovieList/MovieList';
 
 export default function HomePage() {
   const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    getTrendingMovies()
+    const controller = new AbortController();
+
+    getTrendingMovies({
+      abortController: controller,
+    })
       .then(resp => {
         setMovies(resp.movies);
       })
-      .catch(err => {
-        console.log(err);
+      .catch(error => {
+        if (error.code !== 'ERR_CANCELED') {
+          setError(true);
+        }
       });
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   return (
     <div>
       <h2>Trending now</h2>
+      {error && <p>Oops! Error!</p>}
       <MovieList movies={movies} />
     </div>
   );

@@ -15,8 +15,10 @@ axios.defaults.headers.accept = 'application/json';
 //   per_page: 10,
 // };
 
-export const getTrendingMovies = async () => {
-  const data = await axios.get('/trending/movie/day');
+export const getTrendingMovies = async ({ abortController }) => {
+  const data = await axios.get('/trending/movie/day', {
+    signal: abortController.signal,
+  });
 
   const normalizedData = data.data.results.map(({ id, title }) => ({
     id,
@@ -24,4 +26,10 @@ export const getTrendingMovies = async () => {
   }));
 
   return { movies: normalizedData };
+};
+
+export const getMovieById = async movieId => {
+  const data = await axios.get(`/movie/${movieId}`);
+
+  return { data };
 };
