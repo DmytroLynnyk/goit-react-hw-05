@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { SearchMovie } from '../components/SearchMovie/SearchMovie';
-import { Toaster } from 'react-hot-toast';
 import { MovieList } from '../components/MovieList/MovieList';
 import { LoadMoreBtn } from '../components/LoadMoreBtn/LoadMoreBtn';
 import { Loader } from '../components/Loader/Loader';
@@ -45,7 +44,6 @@ export default function MovieSearchPage() {
   return (
     <div>
       <SearchMovie onSubmit={onSubmit} movies={movies} />
-      <Toaster position="top-left" reverseOrder={false} />
       <MovieList movies={movies} />
       {movies.length < totalResults && (
         <LoadMoreBtn onClick={onClick}>Load more</LoadMoreBtn>
