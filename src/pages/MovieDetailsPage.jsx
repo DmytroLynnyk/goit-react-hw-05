@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { getMovieById } from '../apiService/Films';
+import { getMovieById, getPoster } from '../apiService/Films';
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
-  const controller = new AbortController();
 
   useEffect(() => {
     getMovieById(movieId)
@@ -21,6 +20,7 @@ export default function MovieDetailsPage() {
     <div>
       {movie && (
         <div>
+          <img src={getPoster(movie.poster_path)} alt={movie.title} />
           <div>
             <h1>
               {movie.title} ({movie.release_date.substring(0, 4)})
@@ -37,8 +37,12 @@ export default function MovieDetailsPage() {
           </div>
           <h3>Additional information</h3>
           <ul>
-            <Link>Cast</Link>
-            <Link>Reviews</Link>
+            <li>
+              <Link>Cast</Link>
+            </li>
+            <li>
+              <Link>Reviews</Link>
+            </li>
           </ul>
         </div>
       )}

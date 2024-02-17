@@ -33,3 +33,7 @@ export const getMovieById = async movieId => {
 
   return { data };
 };
+
+export const getPoster = poster_path => {
+  return `https://image.tmdb.org/t/p/w500${poster_path}`;
+};
