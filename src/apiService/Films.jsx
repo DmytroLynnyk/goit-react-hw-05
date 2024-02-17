@@ -9,11 +9,11 @@ axios.defaults.baseURL = 'https://api.themoviedb.org/3/';
 axios.defaults.headers.common['Authorization'] = ACCESS_TOKEN;
 axios.defaults.headers.accept = 'application/json';
 
-// axios.defaults.params = {
-//   language: 'en-US',
-//   api_key: API_KEY,
-//   per_page: 10,
-// };
+axios.defaults.params = {
+  language: 'en-US',
+  api_key: API_KEY,
+  per_page: 10,
+};
 
 export const getTrendingMovies = async ({ abortController }) => {
   const data = await axios.get('/trending/movie/day', {
@@ -36,4 +36,30 @@ export const getMovieById = async movieId => {
 
 export const getPoster = poster_path => {
   return `https://image.tmdb.org/t/p/w500${poster_path}`;
+};
+
+export const getMovies = async (query, page) => {
+  const movies = await axios.get(`/search/movie?query=${query}&page=${page}`);
+
+  const normalizedData = movies.data.results.map(({ id, title }) => ({
+    id,
+    title,
+  }));
+
+  return { movies: normalizedData, totalMovies: movies.data.total_results };
+};
+
+export const getMovieCast = async movieId => {
+  const data = await axios.get(`/movie/${movieId}/credits`);
+
+  const normalizedData = data.data.cast.map(
+    ({ id, character, name, profile_path }) => ({
+      id,
+      character,
+      name,
+      profile: profile_path,
+    })
+  );
+
+  return { data: normalizedData };
 };

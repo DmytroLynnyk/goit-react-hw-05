@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { getMovieById, getPoster } from '../apiService/Films';
+import { getMovieById } from '../apiService/Films';
+import { MovieListItem } from '../components/MovieListItem/MovieListItem';
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
@@ -18,34 +19,8 @@ export default function MovieDetailsPage() {
 
   return (
     <div>
-      {movie && (
-        <div>
-          <img src={getPoster(movie.poster_path)} alt={movie.title} />
-          <div>
-            <h1>
-              {movie.title} ({movie.release_date.substring(0, 4)})
-            </h1>
-            <p>User score: {Math.round(movie.vote_average * 10)}&#x25;</p>
-            <h2>Overview</h2>
-            <p>{movie.overview}</p>
-            <h2>Genres</h2>
-            <p>
-              {movie.genres.map(genre => (
-                <li key={genre.id}>{genre.name}</li>
-              ))}
-            </p>
-          </div>
-          <h3>Additional information</h3>
-          <ul>
-            <li>
-              <Link>Cast</Link>
-            </li>
-            <li>
-              <Link>Reviews</Link>
-            </li>
-          </ul>
-        </div>
-      )}
+      <Link to="/">Go back</Link>
+      {movie && <MovieListItem movie={movie} />}
     </div>
   );
 }

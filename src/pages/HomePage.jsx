@@ -30,7 +30,7 @@ export default function HomePage() {
     <div>
       <h2>Trending now</h2>
       {error && <p>Oops! Error!</p>}
-      <MovieList movies={movies} />
+      {movies.length > 0 && <MovieList movies={movies} />}
     </div>
   );
 }
