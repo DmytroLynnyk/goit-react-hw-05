@@ -8,13 +8,24 @@ export const MovieCast = () => {
   console.log(movieCast);
 
   useEffect(() => {
-    getMovieCast(movieId)
+    const controller = new AbortController();
+
+    getMovieCast({
+      movieId: movieId,
+      abortController: controller,
+    })
       .then(resp => {
         setMovieCast(resp.data);
       })
       .catch(error => {
-        console.log(error);
+        if (error.code !== 'ERR_CANCELED') {
+          setError(true);
+        }
       });
+
+    return () => {
+      controller.abort();
+    };
   }, [movieId]);
 
   return (

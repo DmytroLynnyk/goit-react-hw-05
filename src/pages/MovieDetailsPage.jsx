@@ -8,13 +8,24 @@ export default function MovieDetailsPage() {
   const [movie, setMovie] = useState(null);
 
   useEffect(() => {
-    getMovieById(movieId)
+    const controller = new AbortController();
+
+    getMovieById({
+      movieId: movieId,
+      abortController: controller,
+    })
       .then(resp => {
         setMovie(resp.data.data);
       })
       .catch(error => {
-        console.log(error);
+        if (error.code !== 'ERR_CANCELED') {
+          setError(true);
+        }
       });
+
+    return () => {
+      controller.abort();
+    };
   }, [movieId]);
 
   return (

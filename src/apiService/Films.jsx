@@ -28,8 +28,10 @@ export const getTrendingMovies = async ({ abortController }) => {
   return { movies: normalizedData };
 };
 
-export const getMovieById = async movieId => {
-  const data = await axios.get(`/movie/${movieId}`);
+export const getMovieById = async ({ movieId, abortController }) => {
+  const data = await axios.get(`/movie/${movieId}`, {
+    signal: abortController.signal,
+  });
 
   return { data };
 };
@@ -49,8 +51,10 @@ export const getMovies = async (query, page) => {
   return { movies: normalizedData, totalMovies: movies.data.total_results };
 };
 
-export const getMovieCast = async movieId => {
-  const data = await axios.get(`/movie/${movieId}/credits`);
+export const getMovieCast = async ({ movieId, abortController }) => {
+  const data = await axios.get(`/movie/${movieId}/credits`, {
+    signal: abortController.signal,
+  });
 
   const normalizedData = data.data.cast.map(
     ({ id, character, name, profile_path }) => ({
