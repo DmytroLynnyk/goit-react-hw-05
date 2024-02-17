@@ -10,9 +10,9 @@ import toast, { Toaster } from 'react-hot-toast';
 
 export default function MovieSearchPage() {
   const [params, setParams] = useSearchParams();
-  const filter = params.get('query') ?? '';
+  const query = params.get('query') ?? '';
+  console.log(query);
 
-  const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -20,14 +20,15 @@ export default function MovieSearchPage() {
   const [totalResults, setTotalResults] = useState(0);
 
   const onSubmit = query => {
-    if (query !== '') {
-      setParams({ query: query });
-    }
-
     setPage(1);
     setMovies([]);
     setTotalResults(0);
-    setQuery(query);
+
+    if (query !== '') {
+      params.set('query', query);
+      setParams(params);
+    }
+
     if (query === '') return toast.error('Write something to start searching');
   };
 
@@ -37,7 +38,7 @@ export default function MovieSearchPage() {
     getMovies(query, page)
       .then(resp => {
         setTotalResults(resp.totalMovies);
-        setMovies(oldMovies => [...oldMovies, ...resp.movies]);
+        setMovies(resp.movies);
       })
       .catch(err => {
         console.log(err.message);
@@ -52,7 +53,7 @@ export default function MovieSearchPage() {
 
   return (
     <div>
-      <SearchMovie value={filter} onSubmit={onSubmit} movies={movies} />
+      <SearchMovie value={query} onSubmit={onSubmit} movies={movies} />
       <Toaster position="top-left" reverseOrder={false} />
       <MovieList movies={movies} />
       {movies.length < totalResults && (
