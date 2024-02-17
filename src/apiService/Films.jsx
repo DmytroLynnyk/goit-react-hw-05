@@ -67,3 +67,11 @@ export const getMovieCast = async ({ movieId, abortController }) => {
 
   return { data: normalizedData };
 };
+
+export const getMovieReviews = async ({ movieId, abortController }) => {
+  const data = await axios.get(`/movie/${movieId}/reviews`, {
+    signal: abortController.signal,
+  });
+
+  return { data };
+};

@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 export const MovieCast = () => {
   const { movieId } = useParams();
   const [movieCast, setMovieCast] = useState([]);
-  console.log(movieCast);
 
   useEffect(() => {
     const controller = new AbortController();
