@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { getMovieById } from '../apiService/Films';
 import { MovieListItem } from '../components/MovieListItem/MovieListItem';
+import { BackLink } from '../components/BackLink/BackLink';
 
 export default function MovieDetailsPage() {
   const location = useLocation();
@@ -29,11 +30,11 @@ export default function MovieDetailsPage() {
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [movieId]);
 
   return (
     <div>
-      <Link to={backLinkRef.current ?? '/movies'}>Go back</Link>
+      <BackLink href={backLinkRef.current ?? '/movies'}>Go back</BackLink>
       {movie && <MovieListItem movie={movie} />}
     </div>
   );

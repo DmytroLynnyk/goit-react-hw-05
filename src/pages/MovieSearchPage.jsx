@@ -11,7 +11,6 @@ import toast, { Toaster } from 'react-hot-toast';
 export default function MovieSearchPage() {
   const [params, setParams] = useSearchParams();
   const query = params.get('query') ?? '';
-  console.log(query);
 
   const [page, setPage] = useState(1);
   const [movies, setMovies] = useState([]);
