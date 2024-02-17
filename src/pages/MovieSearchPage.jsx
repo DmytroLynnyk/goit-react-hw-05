@@ -5,8 +5,13 @@ import { LoadMoreBtn } from '../components/LoadMoreBtn/LoadMoreBtn';
 import { Loader } from '../components/Loader/Loader';
 import { ErrorMessage } from '../components/ErrorMessage/ErrorMessage';
 import { getMovies } from '../apiService/Films';
+import { useSearchParams } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function MovieSearchPage() {
+  const [params, setParams] = useSearchParams();
+  const filter = params.get('query') ?? '';
+
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [movies, setMovies] = useState([]);
@@ -15,6 +20,10 @@ export default function MovieSearchPage() {
   const [totalResults, setTotalResults] = useState(0);
 
   const onSubmit = query => {
+    if (query !== '') {
+      setParams({ query: query });
+    }
+
     setPage(1);
     setMovies([]);
     setTotalResults(0);
@@ -43,7 +52,8 @@ export default function MovieSearchPage() {
 
   return (
     <div>
-      <SearchMovie onSubmit={onSubmit} movies={movies} />
+      <SearchMovie value={filter} onSubmit={onSubmit} movies={movies} />
+      <Toaster position="top-left" reverseOrder={false} />
       <MovieList movies={movies} />
       {movies.length < totalResults && (
         <LoadMoreBtn onClick={onClick}>Load more</LoadMoreBtn>

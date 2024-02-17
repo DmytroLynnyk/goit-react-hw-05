@@ -1,6 +1,6 @@
 import css from './SearchMovie.module.css';
 
-export const SearchMovie = ({ onSubmit }) => {
+export const SearchMovie = ({ value, onSubmit }) => {
   const handleSubmit = e => {
     e.preventDefault();
     const value = e.target.elements.query.value.trim().toLowerCase();
@@ -11,7 +11,7 @@ export const SearchMovie = ({ onSubmit }) => {
 
   return (
     <div className={css.search}>
-      <form onSubmit={handleSubmit}>
+      <form value={value} onSubmit={handleSubmit}>
         <input
           type="text"
           name="query"
