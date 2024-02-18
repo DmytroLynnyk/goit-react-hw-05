@@ -10,13 +10,13 @@ import toast, { Toaster } from 'react-hot-toast';
 
 export default function MovieSearchPage() {
   const [params, setParams] = useSearchParams();
-  const query = params.get('query') ?? '';
-
   const [page, setPage] = useState(1);
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [totalResults, setTotalResults] = useState(0);
+
+  const query = params.get('query') ?? '';
 
   const onSubmit = query => {
     setPage(1);
@@ -32,18 +32,29 @@ export default function MovieSearchPage() {
   };
 
   useEffect(() => {
+    const controller = new AbortController();
+
     if (!query) return;
     setIsLoading(true);
-    getMovies(query, page)
+    getMovies({
+      page: page,
+      query: query,
+      abortController: controller,
+    })
       .then(resp => {
         setTotalResults(resp.totalMovies);
         setMovies(resp.movies);
       })
-      .catch(err => {
-        console.log(err.message);
-        setIsError(true);
+      .catch(error => {
+        if (error.code !== 'ERR_CANCELED') {
+          setError(true);
+        }
       })
       .finally(() => setIsLoading(false));
+
+    return () => {
+      controller.abort();
+    };
   }, [query, page]);
 
   const onClick = () => {

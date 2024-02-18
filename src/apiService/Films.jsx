@@ -40,8 +40,10 @@ export const getPoster = poster_path => {
   return `https://image.tmdb.org/t/p/w500${poster_path}`;
 };
 
-export const getMovies = async (query, page) => {
-  const movies = await axios.get(`/search/movie?query=${query}&page=${page}`);
+export const getMovies = async ({ query, page, abortController }) => {
+  const movies = await axios.get(`/search/movie?query=${query}&page=${page}`, {
+    signal: abortController.signal,
+  });
 
   const normalizedData = movies.data.results.map(({ id, title }) => ({
     id,
