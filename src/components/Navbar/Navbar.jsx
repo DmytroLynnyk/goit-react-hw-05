@@ -8,13 +8,15 @@ const buildLInkClass = ({ isActive }) => {
 
 export const Navbar = () => {
   return (
-    <nav className={css.nav}>
-      <NavLink to="/" className={buildLInkClass}>
-        Home
-      </NavLink>
-      <NavLink to="/movies" className={buildLInkClass}>
-        Movies
-      </NavLink>
-    </nav>
+    <header>
+      <nav className={css.nav}>
+        <NavLink to="/" className={buildLInkClass}>
+          Home
+        </NavLink>
+        <NavLink to="/movies" className={buildLInkClass}>
+          Movies
+        </NavLink>
+      </nav>
+    </header>
   );
 };

@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { getMovieCast, getPoster } from '../../apiService/Films';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import css from './MovieCast.module.css';
 
 export const MovieCast = () => {
   const { movieId } = useParams();
@@ -30,17 +31,23 @@ export const MovieCast = () => {
   return (
     <div>
       {movieCast.length > 0 && (
-        <ul>
+        <ul className={css.list}>
           {movieCast.map(({ id, name, character, profile }) => (
-            <li key={id}>
-              <img src={getPoster(profile)} alt={name} />
+            <li key={id} className={css.listItem}>
+              <img
+                src={getPoster(profile)}
+                alt={name}
+                className={css.castImg}
+              />
               <p>{name}</p>
-              <p>{character}</p>
+              <p>Character: {character}</p>
             </li>
           ))}
         </ul>
       )}
-      MovieCast
+      {movieCast.length === 0 && (
+        <div>We don`t have any information about cast.</div>
+      )}
     </div>
   );
 };
