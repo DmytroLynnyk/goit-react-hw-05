@@ -24,18 +24,19 @@ export default function MovieSearchPage() {
     setMovies([]);
     setTotalResults(0);
 
-    if (query !== '') {
+    if (query === '') {
+      return toast.error('Write something to start searching');
+    } else {
       params.set('query', query);
       setParams(params);
     }
-
-    if (query === '') return toast.error('Write something to start searching');
   };
 
   useEffect(() => {
     const controller = new AbortController();
 
-    if (!query) return;
+    if (query === '') return;
+
     setIsLoading(true);
     getMovies({
       page: page,
@@ -43,12 +44,19 @@ export default function MovieSearchPage() {
       abortController: controller,
     })
       .then(resp => {
-        setTotalResults(resp.totalMovies);
-        setMovies(resp.movies);
+        if (resp.totalMovies === 0) {
+          return toast.error('Nothing was found');
+        } else {
+          setTotalResults(resp.totalMovies);
+          setMovies(resp.movies);
+        }
       })
       .catch(error => {
-        if (axios.isCancel(error)) return;
-        setError(true);
+        if (axios.isCancel(error)) {
+          setIsError(!axios.isCancel(error));
+        } else {
+          setIsError(axios.isCancel(error));
+        }
       })
       .finally(() => setIsLoading(false));
 
@@ -64,7 +72,7 @@ export default function MovieSearchPage() {
   return (
     <div>
       <SearchMovie value={query} onSubmit={onSubmit} movies={movies} />
-      <Toaster position="top-left" reverseOrder={false} />
+      <Toaster position="top-center" reverseOrder={false} />
       <MovieList movies={movies} />
       {movies.length < totalResults && (
         <LoadMoreBtn onClick={onClick}>Load more</LoadMoreBtn>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getTrendingMovies } from '../apiService/Films';
 import { MovieList } from '../components/MovieList/MovieList';
+import axios from 'axios';
 
 export default function HomePage() {
   const [movies, setMovies] = useState([]);

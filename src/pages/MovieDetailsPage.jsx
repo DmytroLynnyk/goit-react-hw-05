@@ -24,7 +24,7 @@ export default function MovieDetailsPage() {
       })
       .catch(error => {
         if (axios.isCancel(error)) return;
-        setError(true);
+        // setError(true);
       });
 
     return () => {
