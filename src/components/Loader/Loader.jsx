@@ -5,7 +5,6 @@ export const Loader = () => {
   return (
     <div className={css.backdrop}>
       <RingLoader color="#388041" size={200} />
-      {'Loading, please wait...'}
     </div>
   );
 };
