@@ -7,6 +7,7 @@ import { ErrorMessage } from '../components/ErrorMessage/ErrorMessage';
 import { getMovies } from '../apiService/Films';
 import { useSearchParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
+import axios from 'axios';
 
 export default function MovieSearchPage() {
   const [params, setParams] = useSearchParams();
@@ -46,9 +47,8 @@ export default function MovieSearchPage() {
         setMovies(resp.movies);
       })
       .catch(error => {
-        if (error.code !== 'ERR_CANCELED') {
-          setError(true);
-        }
+        if (axios.isCancel(error)) return;
+        setError(true);
       })
       .finally(() => setIsLoading(false));
 

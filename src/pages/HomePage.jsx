@@ -16,9 +16,8 @@ export default function HomePage() {
         setMovies(resp.movies);
       })
       .catch(error => {
-        if (error.code !== 'ERR_CANCELED') {
-          setError(true);
-        }
+        if (axios.isCancel(error)) return;
+        setError(true);
       });
 
     return () => {

@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { getMovieCast, getPoster } from '../../apiService/Films';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export const MovieCast = () => {
   const { movieId } = useParams();
@@ -17,9 +18,8 @@ export const MovieCast = () => {
         setMovieCast(resp.data);
       })
       .catch(error => {
-        if (error.code !== 'ERR_CANCELED') {
-          setError(true);
-        }
+        if (axios.isCancel(error)) return;
+        setError(true);
       });
 
     return () => {

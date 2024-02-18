@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { getMovieById } from '../apiService/Films';
 import { MovieListItem } from '../components/MovieListItem/MovieListItem';
 import { BackLink } from '../components/BackLink/BackLink';
+import axios from 'axios';
 
 export default function MovieDetailsPage() {
   const location = useLocation();
@@ -22,9 +23,8 @@ export default function MovieDetailsPage() {
         setMovie(resp.data.data);
       })
       .catch(error => {
-        if (error.code !== 'ERR_CANCELED') {
-          setError(true);
-        }
+        if (axios.isCancel(error)) return;
+        setError(true);
       });
 
     return () => {
