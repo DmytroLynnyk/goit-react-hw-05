@@ -6,7 +6,6 @@ export const MovieList = ({ movies }) => {
 
   return (
     <div>
-      <h2 className={css.title}>Trending today</h2>
       {movies.length > 0 && (
         <ul className={css.list}>
           {movies.map(movie => (
