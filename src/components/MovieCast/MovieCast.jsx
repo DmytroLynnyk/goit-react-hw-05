@@ -30,7 +30,7 @@ export const MovieCast = () => {
 
   return (
     <div>
-      {movieCast.length > 0 && (
+      {movieCast.length > 0 ? (
         <ul className={css.list}>
           {movieCast.map(({ id, name, character, profile }) => (
             <li key={id} className={css.listItem}>
@@ -44,8 +44,7 @@ export const MovieCast = () => {
             </li>
           ))}
         </ul>
-      )}
-      {movieCast.length === 0 && (
+      ) : (
         <div>We don`t have any information about cast.</div>
       )}
     </div>

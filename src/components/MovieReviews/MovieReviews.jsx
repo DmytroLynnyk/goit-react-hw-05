@@ -30,7 +30,7 @@ export const MovieReviews = () => {
 
   return (
     <div>
-      {movieReviews.length > 0 && (
+      {movieReviews.length > 0 ? (
         <ul className={css.list}>
           {movieReviews.map(({ id, author, content }) => (
             <li key={id} className={css.listItem}>
@@ -39,8 +39,7 @@ export const MovieReviews = () => {
             </li>
           ))}
         </ul>
-      )}
-      {movieReviews.length === 0 && (
+      ) : (
         <div>We don`t have any reviews for this movie.</div>
       )}
     </div>
