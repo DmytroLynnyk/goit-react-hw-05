@@ -34,11 +34,20 @@ export const MovieCast = () => {
         <ul className={css.list}>
           {movieCast.map(({ id, name, character, profile }) => (
             <li key={id} className={css.listItem}>
-              <img
-                src={getPoster(profile)}
-                alt={name}
-                className={css.castImg}
-              />
+              {profile ? (
+                <img
+                  src={getPoster(profile)}
+                  alt={name}
+                  className={css.castImg}
+                />
+              ) : (
+                <img
+                  src="https://fakeimg.pl/100x150?text=No+photo"
+                  alt="No photo"
+                  className={css.castImg}
+                />
+              )}
+
               <p>{name}</p>
               <p>Character: {character}</p>
             </li>

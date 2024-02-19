@@ -6,11 +6,19 @@ export const MovieListItem = ({ movie }) => {
   return (
     <div>
       <div className={css.posterAndDesc}>
-        <img
-          src={getPoster(movie.poster_path)}
-          alt={movie.title}
-          className={css.poster}
-        />
+        {movie.poster_path ? (
+          <img
+            src={getPoster(movie.poster_path)}
+            alt={movie.title}
+            className={css.poster}
+          />
+        ) : (
+          <img
+            src="https://fakeimg.pl/300x450?text=No+poster"
+            alt="No poster"
+            className={css.poster}
+          />
+        )}
         <div className={css.desc}>
           <h1 className={css.title}>
             {movie.title} ({movie.release_date.substring(0, 4)})
